@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono|Share+Tech+Mono');
+
+body {
+	background-color: #34495e;
+	margin: 0;
+	position: relative;
+	font-family: 'Roboto Mono', monospace;
+}
+
+.wrapper {
+	background-color: #f1c40f;
+	display: inline-block;
+	padding: 40px 20px;
+	border: 15px outset #bc990b;
+	border-radius: 20px;
+	position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.stopwatch {
+	background-color: #75c4b4;
+	display: inline-block;
+	padding: 20px 10px;
+	border-radius: 10px;
+	border: 10px inset #5d9b8e;
+	font-size: 64px;
+	font-style: italic;
+	font-family: 'Share Tech Mono', monospace;
+}
+
+.controls {
+	margin: 25px auto 0;
+	border: 1px outset #262626;
+	border-radius: 8px;
+	display: flex;
+	justify-content: space-between;
+	width: 80%;
+	background-color: #494949;
+	padding: 8px;
+}
+
+.button {
+	color: #fff;
+	background-color: #262626;
+	padding: 4px 8px;
+	border: 2px outset #666;
+	border-radius: 4px;
+	font-size: 18px;
+	width: 80px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.button:hover {
+	border: 2px inset #666;
+}
