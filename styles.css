@@ -7,16 +7,20 @@ body {
 	font-family: 'Roboto Mono', monospace;
 }
 
+.container {
+	position: absolute; 
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
 .wrapper {
 	background-color: #f1c40f;
 	display: inline-block;
 	padding: 40px 20px;
 	border: 15px outset #bc990b;
 	border-radius: 20px;
-	position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translate(-50%);
+	margin-bottom: 30px;
 }
 
 .stopwatch {
@@ -36,6 +40,7 @@ body {
 	border-radius: 8px;
 	display: flex;
 	justify-content: space-between;
+	flex-wrap: wrap;
 	width: 80%;
 	background-color: #494949;
 	padding: 8px;
@@ -48,11 +53,88 @@ body {
 	border: 2px outset #666;
 	border-radius: 4px;
 	font-size: 18px;
-	width: 80px;
+	width: 60px;
 	text-align: center;
 	text-decoration: none;
 }
 
 .button:hover {
 	border: 2px inset #666;
+}
+
+.button[disabled] {
+	color: #ccc;
+	border: 2px outset #666;
+}
+
+.results {
+  background: #fff;
+  padding: 30px;
+  position: relative;
+}
+
+.results,
+.results::before,
+.results::after {
+	box-shadow: 1px 1px 1px rgba(0,0,0,0.25);
+  border: 1px solid #bbb;
+}
+
+.results::before,
+.results::after {
+  content: "";
+  position: absolute;
+  height: 95%;
+  width: 99%;
+  background-color: #eee;
+}
+
+.results::before {
+  right: 15px;
+  top: 0;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+.results::after {
+  top: 5px;
+  right: -5px;
+  transform: rotate(1deg);
+  z-index: -2;
+}
+
+.results strong {
+	display: block;
+	text-align: center;
+	font-size: 24px; 
+}
+
+.table-buttons {
+	display: block;
+	text-align: center;
+}
+
+.table-button {
+	color: #666;
+	text-decoration: none;
+}
+
+.table-button:hover {
+	color: #262626;
+}
+
+.table-button:nth-of-type(2) {
+	margin-left: 30px;
+}
+
+.results ul {
+	list-style-type: none;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+}
+
+.results ul li {
+	margin-top: 10px;
+	font-size: 32px;
 }
