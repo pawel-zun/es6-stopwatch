@@ -1,36 +1,40 @@
-class Stopwatch {
-	constructor(node) {
-		this.running = false;
-		this.node = node;
-		this.create();
-		this.reset();
-		this.print(this.times);
+class Stopwatch extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			running: false,
+			times: {
+				minutes: 0,
+				seconds: 0,
+				miliseconds: 0
+			}
+		}
 	}
 
-	create() {
-		this.node.innerHTML = 
-		`
-		<div class="container">
-			<div class="wrapper">
-	      <div class="stopwatch"></div>
-	      <nav class="controls">
-	        <a href="#" class="button" id="start">Start</a>
-	        <a href="#" class="button" id="stop">Stop</a>
-	        <a href="#" class="button" id="reset">Reset</a>
-	      </nav>
-	    </div>    
-    	<div class="results">
-    		<strong>Table of results</strong>
-    		<div class="table-buttons">
-	    		<a href="#" class="table-button" id="mark">Mark result</a>
-	    		<a href="#" class="table-button" id="reset-results">Reset results</a>
-    		</div>
-    		<ul class="result-list">
-    		</ul>
-    	</div>
-    </div>
-    `;
-    console.log(this.node);
+	render() {
+		return (
+			<div className="container">
+				<div className="wrapper">
+			    <div className="stopwatch">{this.props.value}</div>
+			    <nav className="controls">
+			      <a href="#" className="button" onClick={ ()=> this.start() }>Start</a>
+			      <a href="#" className="button" onClick={ ()=> this.stop() }>Stop</a>
+			      <a href="#" className="button" onClick={ ()=> this.clear() }>Reset</a>
+			    </nav>
+			  </div>    
+		   	<div className="results">
+		   		<strong>Table of results</strong>
+		   		<div className="table-buttons">
+			   		<a href="#" className="table-button" onClick={ ()=> this.mark() }>Mark result</a>
+			   		<a href="#" className="table-button" onClick={ ()=> this.clearList() }>Reset results</a>
+		   		</div>
+		   		<ul className="result-list">
+		   		</ul>
+		   	</div>
+		   </div>
+		  )
+    }
+
     this.display = this.node.querySelector('.stopwatch');
     this.startButton = this.node.querySelector('#start');
 		this.startButton.addEventListener('click', () => this.start());
@@ -51,11 +55,6 @@ class Stopwatch {
 	}
 
 	reset() {
-		this.times = {
-			minutes: 0,
-			seconds: 0,
-			miliseconds: 0
-		};
 	}
 
 	print() {
