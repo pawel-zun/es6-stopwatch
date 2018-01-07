@@ -3,127 +3,126 @@ class Stopwatch extends React.Component {
 		super();
 		this.state = {
 			running: false,
-			times: {
-				minutes: 0,
-				seconds: 0,
-				miliseconds: 0
-			}
-		}
+			disabledBtnState: false,
+			minutes: 0,
+			seconds: 0,
+			miliseconds: 0,
+			marks: []
+		},
+		this.start = this.start.bind(this);
+		this.stop = this.stop.bind(this);
+		this.clear = this.clear.bind(this);
+		this.reset = this.reset.bind(this);
+		this.mark = this.mark.bind(this);
+		this.calculate = this.calculate.bind(this);
+		this.format = this.format.bind(this);
+		this.step = this.step.bind(this);
+		this.clearList = this.clearList.bind(this);
+
+	}
+
+	reset() {
+		this.setState ({
+			minutes: 0,
+			seconds: 0,
+			miliseconds: 0				
+		})
+	}
+
+	format() {
+		return `${pad0(this.state.minutes)}:${pad0(this.state.seconds)}:${pad0(Math.floor(this.state.miliseconds))}`;
+	}
+
+	start() {
+    if (!this.state.running) {
+      this.state.running = true;
+			this.state.disabledBtnState = true;
+      this.watch = setInterval(() => this.step(), 10)
+    }
+	}
+
+	step() {
+		if (!this.state.running) return;
+		this.calculate();
+	}
+
+	calculate() {
+		let {
+      miliseconds,
+      seconds,
+      minutes
+    } = this.state;
+
+		miliseconds += 1;
+    if (miliseconds >= 100) {
+      seconds += 1;
+      miliseconds = 0;
+    }
+    if (seconds >= 60) {
+      minutes += 1;
+      seconds = 0;
+    }
+
+    this.setState ({
+      miliseconds: miliseconds,
+      seconds: seconds,
+      minutes: minutes
+    });
+	}
+
+	stop() {
+		this.state.running = false;
+		this.state.disabledBtnState = false;
+		clearInterval(this.watch);
+	}
+
+	clear() {
+		if (this.state.running) {return;}
+		this.reset();
+	}
+
+	mark() {
+		this.state.marks.push(this.format());
+		console.log(this.state.running);
+		this.elements = this.state.marks.map( (el, id) => <li key={id}>{el}</li>);
+		console.log(this.elements);
+	}
+
+	clearList() {
+		this.state.marks = [];
+		this.elements = [];
 	}
 
 	render() {
 		return (
 			<div className="container">
 				<div className="wrapper">
-			    <div className="stopwatch">{this.props.value}</div>
+			    <div className="stopwatch">{this.format()}</div>
 			    <nav className="controls">
-			      <a href="#" className="button" onClick={ ()=> this.start() }>Start</a>
-			      <a href="#" className="button" onClick={ ()=> this.stop() }>Stop</a>
-			      <a href="#" className="button" onClick={ ()=> this.clear() }>Reset</a>
+			      <a href="#" className="button" onClick={this.start}>Start</a>
+			      <a href="#" className="button" onClick={this.stop}>Stop</a>
+			      <a href="#" className="button" onClick={this.clear} disabled={this.state.disabledBtnState}>Reset</a>
 			    </nav>
 			  </div>    
 		   	<div className="results">
 		   		<strong>Table of results</strong>
 		   		<div className="table-buttons">
-			   		<a href="#" className="table-button" onClick={ ()=> this.mark() }>Mark result</a>
-			   		<a href="#" className="table-button" onClick={ ()=> this.clearList() }>Reset results</a>
+			   		<a href="#" className="table-button" onClick={this.mark}>Mark result</a>
+			   		<a href="#" className="table-button" onClick={this.clearList}>Reset results</a>
 		   		</div>
-		   		<ul className="result-list">
-		   		</ul>
+		   		<ul className="result-list">{this.elements}</ul>
 		   	</div>
-		   </div>
-		  )
-    }
-
-    this.display = this.node.querySelector('.stopwatch');
-    this.startButton = this.node.querySelector('#start');
-		this.startButton.addEventListener('click', () => this.start());
-
-		this.stopButton = this.node.querySelector('#stop');
-		this.stopButton.addEventListener('click', () => this.stop());
-
-		this.resetButton = this.node.querySelector('#reset');
-		this.resetButton.addEventListener('click', () => this.clear());
-
-		this.saveButton = this.node.querySelector('#mark');
-		this.saveButton.addEventListener('click', () => stopwatch.mark());
-
-		this.resetListButton = this.node.querySelector('#reset-results');
-		this.resetListButton.addEventListener('click', () => stopwatch.clearList());
-
-		this.resultsList = this.node.querySelector('.result-list');
-	}
-
-	reset() {
-	}
-
-	print() {
-		this.display.innerText = this.format(this.times);
-	}
-
-	format(times) {
-		return `${pad0(times.minutes)}:${pad0(times.seconds)}:${pad0(Math.floor(times.miliseconds))}`;
-	}
-
-	start() {
-		if (!this.running) {
-			this.running = true;
-			this.watch = setInterval(() => this.step(), 10);
-		}
-		this.resetButton.setAttribute('disabled', 'disabled');
-	}
-
-	step() {
-		if (!this.running) return;
-		this.calculate();
-		this.print();
-	}
-
-	calculate() {
-		this.times.miliseconds += 1;
-		if (this.times.miliseconds >= 100) {
-			this.times.seconds +=1;
-			this.times.miliseconds = 0;
-		}
-		if (this.times.seconds >= 60) {
-			this.times.minutes += 1;
-			this.times.seconds = 0;
-		}
-	}
-
-	stop() {
-		this.running = false;
-		clearInterval(this.watch);
-		this.resetButton.removeAttribute('disabled');
-	}
-
-	clear() {
-		if (this.running) {return;}
-		this.reset();
-		this.print(this.times);
-		this.stop();
-	}
-
-	mark() {
-		this.result = this.display.innerText;
-		this.resultInstance = document.createElement('li');
-		this.resultInstance.innerText = this.result;
-		this.resultsList.append(this.resultInstance);
-	}
-
-	clearList() {
-		this.resultsList.innerHTML = '';
-	}
+		  </div>
+		);
+  }
 }
-
-const stopwatch = new Stopwatch(
-	document.querySelector('.s1')
-);
 
 function pad0(value) {
 	let result = value.toString();
 	if (result.length < 2) {
-		result = '0' + result;
+		result = `0${result}`;
 	}
 	return result;
 }
+
+ReactDOM.render(<Stopwatch />, document.getElementById('s1'));
